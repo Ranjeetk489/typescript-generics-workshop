@@ -6,7 +6,7 @@ import { Equal, Expect } from "../helpers/type-utils";
  * the generic slot...
  */
 const typedObjectKeys = <TObject extends object>(obj: TObject) => {
-  return Object.keys(obj) as Array<keyof TObject>;
+  return Object.keys(obj) as Array<keyof typeof obj>;
 };
 
 it("Should return the keys of the object", () => {

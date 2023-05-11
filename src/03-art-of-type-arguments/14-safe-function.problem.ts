@@ -2,13 +2,13 @@ import { expect, it } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
 const makeSafe =
-  (func: unknown) =>
+  <Targs extends Array<string>, TReturn>(func: (...args: Targs) => TReturn) =>
   (
-    ...args: unknown
+    ...args: Targs
   ):
     | {
         type: "success";
-        result: unknown;
+        result: TReturn;
       }
     | {
         type: "failure";
@@ -16,7 +16,6 @@ const makeSafe =
       } => {
     try {
       const result = func(...args);
-
       return {
         type: "success",
         result,
@@ -89,7 +88,7 @@ it("Should return the error on a thrown call", () => {
 });
 
 it("Should properly match the function's arguments", () => {
-  const func = makeSafe((a: number, b: string) => {
+  const func = makeSafe((a: string, b: string) => {
     return `${a} ${b}`;
   });
 
@@ -99,5 +98,5 @@ it("Should properly match the function's arguments", () => {
   // @ts-expect-error
   func(1, 1);
 
-  func(1, "1");
+  func("1", "1");
 });

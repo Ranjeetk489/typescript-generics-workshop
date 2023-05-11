@@ -1,9 +1,15 @@
 import { expect, it, describe } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
-export const getHomePageFeatureFlags = (
-  config: unknown,
-  override: (flags: unknown) => unknown
+export const getHomePageFeatureFlags = <HProps>(
+  config: {
+    rawConfig : {
+      featureFlags: {
+        homePage: HProps
+      }
+    }
+  },
+  override: (flags: HProps) => HProps
 ) => {
   return override(config.rawConfig.featureFlags.homePage);
 };
